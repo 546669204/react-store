@@ -13,7 +13,7 @@ React State Manager
 ```js
 import { createStore, useStore } from 'react-store';
 
-const data = useStore({ count: 0 });
+const data = createStore({ count: 0 });
 
 function App() {
   return (
