@@ -1,6 +1,6 @@
-import React from "react"
-import { createStore, useStore } from "../src/index"
-import WatchDemo from "./watch"
+import React, { useCallback, useMemo } from "react"
+import { createStore, useStore, useWatch } from "../src/index"
+
 function TodoInput({ data }) {
   console.log("TodoInput被更新", data)
   return (
@@ -12,12 +12,14 @@ function TodoInput({ data }) {
 }
 function TodoList({ data }) {
   console.log("TodoList被更新", data)
-  data.todoList.length;
+  useWatch(useCallback(() => {
+    console.log("触发了watch",data.todoList.length)
+  }, []))
   return (
     <div>
       <ul>
         {data.todoList.map((todo, index) => (
-          <li key={todo+Math.random()}>{todo} <a href="javascript:void(0)" onClick={() => data.todoList.splice(index, 1)}>X</a> </li>
+          <li key={todo+Math.random()}>{todo} <a href="javascript:void" onClick={() => data.todoList.splice(index, 1)}>X</a> </li>
         ))}
       </ul>
     </div>
@@ -39,7 +41,6 @@ export default function App() {
     <div>
       <TodoInput data={data}></TodoInput>
       <TodoList data={data} />
-      <WatchDemo/>
     </div>
   )
 }
